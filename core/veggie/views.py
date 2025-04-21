@@ -18,6 +18,10 @@ def recepies(request):
        
         return redirect('/recepies/')
     queryset=recipie.objects.all()
+    
+    if request.GET.get('Search'):
+        queryset=queryset.filter(recepie_name__icontains=request.GET.get('Search'))
+        
     context={
             'pages':'recepies',
             'recepies':queryset
