@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block start %}
+    <a href="/contact_page/">contact</a>
+    <a href="/about_page/">about</a>
+    <h1>Hello World</h1>
+    <table>
+       
+   <p>
+    {% for v in vegetable %}
+  First available: {% firstof v.x v.y v.z "Nothing found" %}
+{% endfor %}
+
+
+   </p>
+{% endblock %}

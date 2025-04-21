@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block start %}
+    <h2>This is about page</h2>
+    <table>
+    <tr>
+        <th>Name</th>
+        <th>Age</th>
+        <th>Hobby</th>
+        <th>Can vote</th>
+    </tr>
+    {%for p in peoples%}
+    <tr>
+        <td>{{p.name}}</td>
+        
+        <td>{{p.age}}</td>
+        <td>{{p.hobby}}</td>
+
+        <td {% if p.age < 18 %}style="background-color: red;"{% endif %} >
+            {%if p.age >= 18 %}
+            👍
+            {%else%}
+             👎
+            {%endif%}
+        </td>
+    </tr>
+    {%endfor%}
+</table>
+{% endblock %}

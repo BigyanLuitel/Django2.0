@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block start %}
+ <div class="container mt-5" >
+    <form class="col-6 mx-auto card p-3 shadow-lg" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <h2>Update Recepie</h2>
+        <div class="mb-3">
+          <label for="exampleInputEmail1" class="form-label">Recepie Name</label>
+          <input name="recepie_name" value="{{recepie.recepie_name}}" required type="text" class="form-control">
+        </div>
+        <div class="mb-3">
+          <label for="exampleInputPassword1" class="form-label">Recepie Description</label>
+          <textarea name="recepie_description" required class="form-control">{{recepie.recepie_description}}</textarea>
+          </div>
+          <div class="mb-3">
+            <label for="exampleInputPassword1" class="form-label"> Recepie Image</label>
+            <input name="recepie_image" type="file"  class="form-control">
+                </div>
+                <button type="submit" class="btn btn-success">Update recepie</button>
+                        </form>
+                          </tbody>
+                        </table>
+
+{% endblock %}
