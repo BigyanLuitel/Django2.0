@@ -1,4 +1,4 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect,get_object_or_404
 from .models import recipie
 
 # Create your views here.
@@ -26,7 +26,7 @@ def recepies(request):
 
 def delete_recepies(request, id):
     if request.method == "POST":
-        data = recipie.objects.get(id=id)
+        data = get_object_or_404(recipie, id=id)
         data.delete()
     return redirect('/recepies/')
 

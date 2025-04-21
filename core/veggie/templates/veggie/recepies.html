@@ -44,10 +44,14 @@
                                 {% endif %}
                               </td>
                               <td>
-                               <a href="/delete_recepies/{{recepie.id}}"><button class="btn btn-danger m-2">delete</button></a>
-                               <a href="/update_recepies/{{recepie.id}}"><button class="btn btn-primary ">Update</button></a>
-
+                                <form method="POST" action="{% url 'delete_recepies' recepie.id %}" style="display:inline;">
+                                  {% csrf_token %}
+                                  <button type="submit" class="btn btn-danger m-2">Delete</button>
+                                </form>
+                              
+                                <a href="{% url 'update_recepies' recepie.id %}"><button class="btn btn-primary">Update</button></a>
                               </td>
+                              
                             </tr>
                             {% endfor %}
                           </tbody>
