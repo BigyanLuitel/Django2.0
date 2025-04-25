@@ -29,6 +29,9 @@ urlpatterns = [
     path('about_page/',home_views.about,name='about'),
     path('delete_recepies/<int:id>/', veggie_views.delete_recepies, name='delete_recepies'),
     path('update_recepies/<int:id>/', veggie_views.update_recepies, name='update_recepies'),
+    path('login_page/', veggie_views.login_page, name='login'),
+    path('register_page/',veggie_views.register,name='register'),
+    path('logout_page/', veggie_views.logout_page, name='logout'),
 
 ]
 if settings.DEBUG:

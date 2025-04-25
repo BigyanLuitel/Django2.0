@@ -27,3 +27,4 @@ def about(request):
    return render(request,'home/about.html', context={'peoples':peoples,'pages':'about'})
 def contact(request):
    return render(request,'home/contact.html', context={'pages':'contact'})
+

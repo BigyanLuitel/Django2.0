@@ -1,7 +1,12 @@
 from django.shortcuts import render,redirect,get_object_or_404
 from .models import recipie
+from django.contrib.auth.models import User
+from django.contrib import messages
+from django.contrib.auth import authenticate,login,logout
+from django.contrib.auth.decorators import login_required
 
-# Create your views here.
+
+@login_required(login_url="/login_page/")
 def recepies(request):
     if request.method=="POST":
         data=request.POST
@@ -52,3 +57,49 @@ def update_recepies(request, id):
         
     context = {'recepie': data}
     return render(request, 'veggie/update.html', context)
+
+def login_page(request):
+    if request.method == "POST":
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        
+        if not User.objects.filter(username=username).exists():
+            messages.error(request, 'Username does not exist.')
+            return redirect('/login_page/')
+        user=authenticate(username=username, password=password)
+        
+        if user is None:
+            messages.error(request, 'Invalid username or password.')
+            return redirect('/login_page/')
+        else:
+            login(request,user)
+            return redirect('/recepies/')
+    return render(request, 'veggie/login.html', context={'pages': 'login'})
+def logout_page(request):
+    logout(request)
+    return redirect('/login_page/')
+    
+def register(request):
+    if request.method== "POST":
+        first_name=request.POST.get('first_name')
+        last_name=request.POST.get('last_name')
+        username=request.POST.get('username')
+        password=request.POST.get('password')
+        
+        if User.objects.filter(username=username).exists():
+            messages.error(request, 'Username already taken.')
+            return render(request, 'veggie/register.html', {
+                'pages': 'register'
+            })
+        user=User.objects.create(
+            first_name=first_name,
+            last_name=last_name,
+            username=username,
+            password=password
+        )
+        user.set_password(password)
+        user.save()
+        messages.success(request, 'Account created successfully!')
+        return redirect('/login_page/')
+    
+    return render(request, 'veggie/register.html', context={'pages':'register'})
