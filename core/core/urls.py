@@ -32,6 +32,7 @@ urlpatterns = [
     path('login_page/', veggie_views.login_page, name='login'),
     path('register_page/',veggie_views.register,name='register'),
     path('logout_page/', veggie_views.logout_page, name='logout'),
+    path('get_student/', veggie_views.get_student, name='get_student'),
 
 ]
 if settings.DEBUG:

@@ -1,10 +1,11 @@
 from django.shortcuts import render,redirect,get_object_or_404
-from .models import recipie
+from veggie.models import *
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.decorators import login_required
-
+from django.core.paginator import Paginator
+from django.db.models import Q
 
 @login_required(login_url="/login_page/")
 def recepies(request):
@@ -103,3 +104,25 @@ def register(request):
         return redirect('/login_page/')
     
     return render(request, 'veggie/register.html', context={'pages':'register'})
+
+
+
+def get_student(request):
+    queryset=Student.objects.all()
+    if request.GET.get('search'):
+        queryset=queryset.filter(
+            Q(student_name__icontains=request.GET.get('search'))|
+            Q(student_email__icontains=request.GET.get('search'))|
+            Q(student_address__icontains=request.GET.get('search'))|
+            Q(student_id__student_id__icontains=request.GET.get('search'))|
+            Q(Department__department__icontains=request.GET.get('search'))
+        )
+    paginator = Paginator(queryset, 25)  
+    page_number = request.GET.get("page",1)
+    page_obj = paginator.get_page(page_number)
+    
+    return render(request,'veggie/student.html',context={
+        'pages':'student',
+        'students':page_obj,
+    })
+    
