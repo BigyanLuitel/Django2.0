@@ -69,4 +69,11 @@ class subjectMarks(models.Model):
         unique_together = ['student', 'subject']
         ordering = ['student']
         verbose_name = "Subject Mark"
-        
+
+class Reportcard(models.Model):
+    student=models.ForeignKey(Student,related_name="report_card",on_delete=models.CASCADE)
+    student_rank=models.IntegerField(default=0)
+    date_of_report_card=models.DateField(auto_now_add=True)
+    
+    class Meta:
+        unique_together = ['student', 'date_of_report_card']

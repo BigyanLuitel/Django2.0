@@ -6,6 +6,7 @@ from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.db.models import Q
+from django.db.models import Sum
 
 @login_required(login_url="/login_page/")
 def recepies(request):
@@ -109,6 +110,8 @@ def register(request):
 
 def get_student(request):
     queryset=Student.objects.all()
+    ranks=queryset.annotate(marks=Sum('student_marks__marks')).order_by('-marks','-student_age')
+    print(ranks)
     if request.GET.get('search'):
         queryset=queryset.filter(
             Q(student_name__icontains=request.GET.get('search'))|
@@ -125,4 +128,22 @@ def get_student(request):
         'pages':'student',
         'students':page_obj,
     })
-    
+from veggie.seed import generate_report_card
+def see_marks(request,student_id):
+    generate_report_card(student_id)
+    queryset = subjectMarks.objects.filter(student__student_id__student_id=student_id)
+    total_marks=queryset.aggregate(total_marks=Sum('marks'))
+    current_rank=-1
+    ranks=Student.objects.annotate(marks=Sum('student_marks__marks')).order_by('-marks','-student_age')
+    i=1
+    for rank in ranks:
+        if rank.student_id.student_id==student_id:
+            current_rank=i
+            break
+        i=i+1
+    return render(request,'veggie/see_marks.html',context={
+        'pages':'see_marks',
+        'marks':queryset,
+        'total':total_marks,
+        'current_rank':current_rank
+    })

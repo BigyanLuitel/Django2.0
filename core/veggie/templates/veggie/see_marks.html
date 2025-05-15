@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block start %}
+<div class="container mt-5">
+    <h4>Rank:{{current_rank}}</h4>
+    <h4>Total:{{total.total_marks}}</h4>
+   
+  <table class="table table-striped table-bordered table-hover table-sm table-responsive-sm">
+    <thead class="table-dark">
+      <tr>
+        <th colspan="6" class="text-center">Student List</th>
+      </tr>
+    <tbody>
+      {% for mark in marks %}
+      <tr>
+        
+        <th scope="row">{{ forloop.counter }}</th>
+        <td>
+          <b>{{mark.subject.subject_name}}</b>
+        </a>
+      </td>
+        <td>{{ mark.marks }}</td>
+      </tr>
+      {% endfor %}
+      <tr>
+      <th scope="row">Total</th>
+      <td></td>
+      <td><b>{{ total.total_marks }}</b></td>
+    </tr>
+    </tbody>
+
+  </table>
+  
+ 
+{% endblock %}  

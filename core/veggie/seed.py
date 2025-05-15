@@ -40,3 +40,14 @@ def seed_db(n=10)->None:
             )
     except Exception as e:
         print(f"An error occurred: {e}")
+from django.db.models import Sum
+def generate_report_card(student_id):
+    current_rank=-1
+    ranks=Student.objects.annotate(marks=Sum('student_marks__marks')).order_by('-marks','-student_age')
+    i=1
+    for rank in ranks:
+        Reportcard.objects.create(
+            student=rank,
+            student_rank=i
+        )
+        i=i+1

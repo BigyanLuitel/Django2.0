@@ -33,7 +33,7 @@ urlpatterns = [
     path('register_page/',veggie_views.register,name='register'),
     path('logout_page/', veggie_views.logout_page, name='logout'),
     path('get_student/', veggie_views.get_student, name='get_student'),
-
+    path('see_marks/<student_id>/', veggie_views.see_marks, name='see_marks'),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
